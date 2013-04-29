@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
                     and do signed requests. Same API sa SLRequest.
                    DESC
   s.homepage     = "https://github.com/seivan/SHRequest"
-  s.source       = { :git => "https://github.com/seivan/SHRequest.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/seivan/SHRequest.git", :tag => s.version.to_s }
   s.license      = { :type => 'MIT' } 
   s.author       = { "Seivan Heidari" => "seivan.heidari@icloud.com" }
   
@@ -19,6 +19,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'SHRequest/**/*.{h,m}'
 
-  s.dependency 'SHOmniAuth', :git => "https://github.com/seivan/SHOmniAuth.git", :tag => "0.0.1"
+  s.dependency 'SHOmniAuth', '~> 0.0.1'
   s.dependency 'OAuthCore'
 end
