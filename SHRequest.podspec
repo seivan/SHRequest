@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "SHRequest"
-  s.version      = "0.0.1"
+  s.version      = "0.1.0"
   s.summary      = "OAuth Signed requests following an acount protocol and looks like SLRequest."
   s.description  = <<-DESC
                     Pass in an SHAccount (or anything that follows the account protocol)
@@ -19,6 +19,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'SHRequest/**/*.{h,m}'
 
-  s.dependency 'SHOmniAuth', '~> 0.0.1'
+  s.dependency 'SHOmniAuth', '~> 0.1.0'
   s.dependency 'OAuthCore'
 end
