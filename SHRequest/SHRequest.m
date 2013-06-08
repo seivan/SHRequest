@@ -55,7 +55,7 @@
 //  NSAssert(account.credential.secret, @"credential must have secret");
   _account = account;
   NSString *authorizationHeader = OAuthorizationHeader(self.currentRequest.URL,
-                                                       [self toStringForRequestMethod:self.requestMethod],
+                                                       self.currentRequest.HTTPMethod,
                                                        self.bodyData,
                                                        [SHOmniAuth providerValue:SHOmniAuthProviderValueKey
                                                                      forProvider:account.accountType.identifier],
