@@ -13,13 +13,19 @@
 
 
 @interface SHRequest ()
--(NSString *)toStringForRequestMethod:(SHRequestMethod)theRequestMethod;
-@property(nonatomic,strong) NSMutableURLRequest * currentRequest;
-@property(nonatomic,strong) NSString * serviceType;
-@property(nonatomic,strong) NSDictionary * parameters;
-@property(nonatomic,strong) NSData * bodyData;
-
+@property(NS_NONATOMIC_IOSONLY,strong)    NSMutableURLRequest * currentRequest;
+@property(NS_NONATOMIC_IOSONLY,strong)    NSString            * serviceType;
+@property(NS_NONATOMIC_IOSONLY,strong)    NSDictionary        * parameters;
+@property(NS_NONATOMIC_IOSONLY,strong)    NSData              * bodyData;
+@property(NS_NONATOMIC_IOSONLY,readonly)  NSString            * requestMethodString;
+@property(NS_NONATOMIC_IOSONLY,readwrite) SHRequestMethod       requestMethod;
 @end
+
+@interface SHRequest (Private)
+-(NSString *)toStringForRequestMethod:(SHRequestMethod)theRequestMethod;
+@end
+
+
 
 @implementation SHRequest
 +(SHRequest *)requestForServiceType:(NSString *)serviceType requestMethod:(SHRequestMethod)requestMethod URL:(NSURL *)url parameters:(NSDictionary *)parameters; {
@@ -29,7 +35,8 @@
   request.currentRequest = [NSMutableURLRequest requestWithURL:url];
   [request.currentRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [request.currentRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-  [request.currentRequest setHTTPMethod:[request toStringForRequestMethod:requestMethod]];
+  request.requestMethod = requestMethod;
+  [request.currentRequest setHTTPMethod:request.requestMethodString];
   request.parameters = parameters;
   NSMutableString *paramsAsString = [[NSMutableString alloc] init];
   [parameters enumerateKeysAndObjectsUsingBlock:
@@ -77,7 +84,16 @@
                            handler(data, (NSHTTPURLResponse*)response, error.copy);
   }];
 }
+-(NSString *)requestMethodString; {
+  return [self toStringForRequestMethod:self.requestMethod];
+}
 
+-(NSDictionary *)parameters; {
+  return _parameters;
+}
+
+#pragma mark -
+#pragma mark Privates
 -(NSString *)toStringForRequestMethod:(SHRequestMethod)theRequestMethod; {
   NSAssert(theRequestMethod >= 0 && theRequestMethod <= 3, @"Must the request method");
   NSString * toStringForRequestMethod = nil;
@@ -98,10 +114,6 @@
       break;
   }
   return toStringForRequestMethod;
-}
-
--(NSDictionary *)parameters; {
-  return _parameters;
 }
 
 @end
