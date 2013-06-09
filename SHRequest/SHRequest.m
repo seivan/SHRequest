@@ -18,10 +18,13 @@
 @property(nonatomic,strong) NSString * serviceType;
 @property(nonatomic,strong) NSDictionary * parameters;
 @property(nonatomic,strong) NSData * bodyData;
+@property(readwrite) SHRequestMethod requestMethod;
+@property(readwrite) NSURL * URL;
 
 @end
 
 @implementation SHRequest
+
 +(SHRequest *)requestForServiceType:(NSString *)serviceType requestMethod:(SHRequestMethod)requestMethod URL:(NSURL *)url parameters:(NSDictionary *)parameters; {
   NSAssert(serviceType, @"Must pass a serviceType");
   SHRequest * request = [[SHRequest alloc] init];
@@ -39,8 +42,8 @@
   
   request.bodyData = [paramsAsString dataUsingEncoding:NSUTF8StringEncoding];
   [request.currentRequest setHTTPBody:request.bodyData];
-
-  
+  request.requestMethod = requestMethod;
+  request.URL = url;
   return request;
 }
 
