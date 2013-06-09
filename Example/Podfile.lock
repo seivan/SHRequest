@@ -1,54 +1,53 @@
-
 PODS:
-- AFLinkedInOAuth1Client (0.0.2):
-  - AFOAuth1Client (>= 0.1.0)
-- AFNetworking (1.2.0)
-- AFOAuth1Client (0.1.1):
-  - AFNetworking (>= 0.9)
-- BlocksKit (1.8.1):
-  - libffi
-- LUKeychainAccess (1.0.1)
-- NSData+Base64 (1.0.0)
-- OAuthCore (0.0.1):
-  - NSData+Base64
-- SHAccountStore (0.0.1):
-  - BlocksKit
-  - LUKeychainAccess
-- SHOmniAuth (0.0.1):
-  - LUKeychainAccess
-- SHOmniAuthLinkedIn (0.0.1):
-  - AFLinkedInOAuth1Client
-  - SHAccountStore (from `https://github.com/seivan/SHAccountStore.git', tag `0.0.1')
-  - SHOmniAuth (from `https://github.com/seivan/SHOmniAuth.git', tag `0.0.1')
-  - SHRequest (from `https://github.com/seivan/SHRequest.git', tag `0.0.1')
-- SHRequest (0.0.1):
-  - OAuthCore
-  - SHOmniAuth (from `https://github.com/seivan/SHOmniAuth.git', tag `0.0.1')
-- libffi (3.0.11)
+  - AFLinkedInOAuth1Client (0.0.3):
+    - AFOAuth1Client (~> 0.2.0)
+  - AFNetworking (1.3.0)
+  - AFOAuth1Client (0.2.0):
+    - AFNetworking (>= 1.0)
+  - BlocksKit (1.8.1):
+    - libffi
+  - libffi (3.0.13)
+  - LUKeychainAccess (1.0.1)
+  - NSData+Base64 (1.0.0)
+  - OAuthCore (0.0.1):
+    - NSData+Base64
+  - SHAccountStore (0.1.0):
+    - BlocksKit
+    - LUKeychainAccess
+  - SHOmniAuth (0.1.1):
+    - LUKeychainAccess
+  - SHOmniAuthLinkedIn (0.2.2):
+    - AFLinkedInOAuth1Client (~> 0.0.3)
+    - SHAccountStore (~> 0.1.0)
+    - SHOmniAuth (~> 0.1.0)
+    - SHRequest (~> 0.1.0)
+  - SHRequest (0.1.0):
+    - OAuthCore
+    - SHOmniAuth (~> 0.1.0)
 
 DEPENDENCIES:
-- BlocksKit
-- SHOmniAuthLinkedIn (from `http://github.com/seivan/SHOmniAuthLinkedIn')
-- SHRequest (from `../')
+  - BlocksKit
+  - SHOmniAuthLinkedIn (from `http://github.com/seivan/SHOmniAuthLinkedIn`)
+  - SHRequest (from `../`)
 
 EXTERNAL SOURCES:
   SHOmniAuthLinkedIn:
     :git: http://github.com/seivan/SHOmniAuthLinkedIn
   SHRequest:
-    :local: ../
+    :path: ../
 
 SPEC CHECKSUMS:
-  AFLinkedInOAuth1Client: 3428ee51263c8ccc740f20174b65df8b414367ce
-  AFNetworking: 3cbae45f61a9f995cdbd56bd571223910d7f4e44
-  AFOAuth1Client: 037044e341e897e0742920404f0c54ffd51dc776
+  AFLinkedInOAuth1Client: a4e9d7af2a93668be256a01d86505693a79f601e
+  AFNetworking: e528f20d06b1b818c3571266fb5efa20031a8ace
+  AFOAuth1Client: 3e01e6e4218116c2e279671c8ab086133514a350
   BlocksKit: 18102744fd7c44b54f1e54ce6ffe9258bcb5df81
+  libffi: 64ef39353e747bb2b25e1026afd96a157bf9231c
   LUKeychainAccess: 6ba22b2e1eec24f9f2fc9c6a9087d5524a58b1a2
   NSData+Base64: 36c4e5b6479259c1a68866ccd2a8dd385c9744f7
   OAuthCore: 4164eec5e28c68f794953446e68f91054ffe570c
-  SHAccountStore: 6fada0fc198c97cd3ffd81e91f7004f14d88f9df
-  SHOmniAuth: 23db2f01ea9961f6f957b62f3b18cb449e21a577
-  SHOmniAuthLinkedIn: eef375d59bb7f68572a214e9f1907aae63b4aa11
-  SHRequest: 1580e71af342442721f499b418f0639659ce2b93
-  libffi: 8a1d9ba43c0c84b546b42c6f742714e73aa07ae1
+  SHAccountStore: 72b58b8d0055a810a196618cf7e2be269d71d1c7
+  SHOmniAuth: afd6278ea528acc0569bdee94c2185b03457b357
+  SHOmniAuthLinkedIn: 839f376fd33899ff0a41cc6b306d8c77e43a5e5c
+  SHRequest: 47b9393c6dbf294a08621581c2ec5cf7ee2bd6df
 
-COCOAPODS: 0.16.4
+COCOAPODS: 0.19.1
