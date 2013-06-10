@@ -1,4 +1,4 @@
 platform :ios, '5.0'
 pod 'BlocksKit'
-pod 'SHOmniAuthLinkedIn', :git => "http://github.com/seivan/SHOmniAuthLinkedIn"
-pod 'SHRequest', :local => '../'
+pod 'SHOmniAuthLinkedIn'
+pod 'SHRequest', :path => '../'

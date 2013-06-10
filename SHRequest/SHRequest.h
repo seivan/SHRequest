@@ -29,7 +29,7 @@ typedef void(^SHRequestHandler)(NSData *responseData, NSHTTPURLResponse *urlResp
 + (SHRequest *)requestForServiceType:(NSString *)serviceType requestMethod:(SHRequestMethod)requestMethod URL:(NSURL *)url parameters:(NSDictionary *)parameters;
 
 // Optional account information used to authenticate the request. Defaults to nil.
-@property(NS_NONATOMIC_IOSONLY, retain) id<account>  account;
+@property(NS_NONATOMIC_IOSONLY, strong) id<account>  account;
 
 // The request method
 @property(NS_NONATOMIC_IOSONLY,readonly) SHRequestMethod requestMethod;
@@ -39,6 +39,8 @@ typedef void(^SHRequestHandler)(NSData *responseData, NSHTTPURLResponse *urlResp
 
 // The parameters
 @property(NS_NONATOMIC_IOSONLY,readonly) NSDictionary * parameters;
+
+@property(NS_NONATOMIC_IOSONLY,assign) BOOL  isJSONParameters;
 
 //#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 //// Specify a named MIME multi-part value. As of iOS 6.0, if you set parameters,
