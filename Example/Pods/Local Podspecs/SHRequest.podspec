@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   name         = "SHRequest"
   url          = "https://github.com/seivan/#{name}"
   git_url      = "#{url}.git"
-  version      = "0.1.0"
+  version      = "0.1.1"
   source_files = "#{name}/**/*.{h,m}"
 
   s.name         = name
@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
 
   s.source_files = source_files
 
-  s.dependency 'SHOmniAuth', '~> 0.2.0'
+  s.dependency 'SHOmniAuth', '~> 0.1.0'
   s.dependency 'OAuthCore'
 end
 
