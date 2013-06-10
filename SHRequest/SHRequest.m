@@ -17,12 +17,13 @@
 @property(NS_NONATOMIC_IOSONLY,strong)    NSString            * serviceType;
 @property(NS_NONATOMIC_IOSONLY,strong)    NSDictionary        * parameters;
 @property(NS_NONATOMIC_IOSONLY,strong)    NSData              * bodyData;
-@property(NS_NONATOMIC_IOSONLY,readonly)  NSString            * requestMethodString;
 @property(NS_NONATOMIC_IOSONLY,assign)    SHRequestMethod       requestMethod;
 @property(NS_NONATOMIC_IOSONLY,strong)    NSURL               * URL;
 @end
 
 @interface SHRequest (Private)
+@property(NS_NONATOMIC_IOSONLY,readonly)  NSString            * requestMethodString;
+@property(NS_NONATOMIC_IOSONLY,readonly)  NSString            * parameterString;
 -(NSString *)toStringForRequestMethod:(SHRequestMethod)theRequestMethod;
 @end
 
@@ -43,13 +44,9 @@
   [request.currentRequest setHTTPMethod:request.requestMethodString];
   request.parameters = parameters;
   request.URL = url;
-  NSMutableString *paramsAsString = [[NSMutableString alloc] init];
-  [parameters enumerateKeysAndObjectsUsingBlock:
-   ^(id key, id obj, BOOL *stop) {
-     [paramsAsString appendFormat:@"%@=%@&", key, obj];
-   }];
   
-  request.bodyData = [paramsAsString dataUsingEncoding:NSUTF8StringEncoding];
+  request.isJSONParameters = NO;
+  request.bodyData = [request.parameterString dataUsingEncoding:NSUTF8StringEncoding];
   [request.currentRequest setHTTPBody:request.bodyData];
 
   
@@ -66,6 +63,22 @@
 //  NSAssert(account.credential.token, @"credential must have token");
 //  NSAssert(account.credential.secret, @"credential must have secret");
   _account = account;
+
+
+}
+
+
+
+-(void)performRequestWithHandler:(SHRequestHandler)handler; {
+  NSAssert(self.account, @"Must have an account");
+  id<accountPrivate> account = (id<accountPrivate>)self.account;
+  if (self.isJSONParameters && self.parameters) {
+    self.bodyData = [NSJSONSerialization dataWithJSONObject:self.parameters
+                                                    options:NSJSONWritingPrettyPrinted
+                                                      error:nil];
+    [self.currentRequest setHTTPBody:self.bodyData];
+
+  }
   NSString *authorizationHeader = OAuthorizationHeader(self.currentRequest.URL,
                                                        self.requestMethodString,
                                                        self.currentRequest.HTTPBody,
@@ -75,30 +88,35 @@
                                                                      forProvider:account.accountType.identifier],
                                                        account.credential.token,
                                                        account.credential.secret);
+
   [self.currentRequest setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
 
-
-}
-
-
-
--(void)performRequestWithHandler:(SHRequestHandler)handler; {
-//  NSAssert(self.account, @"Must have an account");
+  
   [NSURLConnection sendAsynchronousRequest:self.currentRequest queue:[NSOperationQueue mainQueue]
                          completionHandler:^(NSURLResponse * response, NSData * data, NSError * error) {
                            handler(data, (NSHTTPURLResponse*)response, error.copy);
   }];
 }
--(NSString *)requestMethodString; {
-  return [self toStringForRequestMethod:self.requestMethod];
-}
-
 -(NSDictionary *)parameters; {
   return _parameters;
 }
 
 #pragma mark -
 #pragma mark Privates
+-(NSString *)parameterString; {
+  NSMutableString * paramsAsString = [[NSMutableString alloc] init];
+  [self.parameters enumerateKeysAndObjectsUsingBlock:
+   ^(id key, id obj, BOOL *stop) {
+     [paramsAsString appendFormat:@"%@=%@&", key, obj];
+   }];
+  return paramsAsString;
+}
+
+-(NSString *)requestMethodString; {
+  return [self toStringForRequestMethod:self.requestMethod];
+}
+
+
 -(NSString *)toStringForRequestMethod:(SHRequestMethod)theRequestMethod; {
   NSAssert(theRequestMethod >= 0 && theRequestMethod <= 3, @"Must the request method");
   NSString * toStringForRequestMethod = nil;

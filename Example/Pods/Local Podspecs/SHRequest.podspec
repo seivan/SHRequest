@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
 
   s.source_files = source_files
 
-  s.dependency 'SHOmniAuth', '~> 0.1.0'
+  s.dependency 'SHOmniAuth', '~> 0.2.0'
   s.dependency 'OAuthCore'
 end
 

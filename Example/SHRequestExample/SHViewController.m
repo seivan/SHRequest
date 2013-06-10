@@ -99,6 +99,7 @@
       
       SHRequest * requestPost = [SHRequest requestForServiceType:self.linkedInAccount.accountType.identifier requestMethod:SHRequestMethodPOST URL:[NSURL URLWithString:@"https://api.linkedin.com/v1/people/~/shares?format=json"] parameters:params];
       requestPost.account = self.linkedInAccount;
+      requestPost.isJSONParameters = YES; // LinkedInDEMANDS
       [requestPost performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
         NSDictionary * responseForPost =  [NSJSONSerialization
                                            JSONObjectWithData:responseData options:0 error:nil];
