@@ -18,7 +18,8 @@
 @property(NS_NONATOMIC_IOSONLY,strong)    NSDictionary        * parameters;
 @property(NS_NONATOMIC_IOSONLY,strong)    NSData              * bodyData;
 @property(NS_NONATOMIC_IOSONLY,readonly)  NSString            * requestMethodString;
-@property(NS_NONATOMIC_IOSONLY,readwrite) SHRequestMethod       requestMethod;
+@property(NS_NONATOMIC_IOSONLY,assign)    SHRequestMethod       requestMethod;
+@property(NS_NONATOMIC_IOSONLY,strong)    NSURL               * URL;
 @end
 
 @interface SHRequest (Private)
@@ -29,15 +30,19 @@
 
 @implementation SHRequest
 +(SHRequest *)requestForServiceType:(NSString *)serviceType requestMethod:(SHRequestMethod)requestMethod URL:(NSURL *)url parameters:(NSDictionary *)parameters; {
+  
+  
   NSAssert(serviceType, @"Must pass a serviceType");
   SHRequest * request = [[SHRequest alloc] init];
   request.serviceType = serviceType;
   request.currentRequest = [NSMutableURLRequest requestWithURL:url];
   [request.currentRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  [request.currentRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//  [request.currentRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//  [request.currentRequest setValue:@"json" forHTTPHeaderField:@"x-li-format"];
   request.requestMethod = requestMethod;
   [request.currentRequest setHTTPMethod:request.requestMethodString];
   request.parameters = parameters;
+  request.URL = url;
   NSMutableString *paramsAsString = [[NSMutableString alloc] init];
   [parameters enumerateKeysAndObjectsUsingBlock:
    ^(id key, id obj, BOOL *stop) {
@@ -62,8 +67,8 @@
 //  NSAssert(account.credential.secret, @"credential must have secret");
   _account = account;
   NSString *authorizationHeader = OAuthorizationHeader(self.currentRequest.URL,
-                                                       self.currentRequest.HTTPMethod,
-                                                       self.bodyData,
+                                                       self.requestMethodString,
+                                                       self.currentRequest.HTTPBody,
                                                        [SHOmniAuth providerValue:SHOmniAuthProviderValueKey
                                                                      forProvider:account.accountType.identifier],
                                                        [SHOmniAuth providerValue:SHOmniAuthProviderValueSecret
